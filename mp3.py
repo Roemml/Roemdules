@@ -7,7 +7,7 @@ stop__music_event = threading.Event()
 pause_music_event = threading.Event()
 resume_music_event = threading.Event()
 mp3_thread = None
-def play_music(mp3_file, stop_music_event, pause_music_event, resume_music_event) -> None:
+def _play_music(mp3_file, stop_music_event, pause_music_event, resume_music_event) -> None:
     """
     Hintergrundmusik Spieler im Loop.
     """
@@ -34,7 +34,7 @@ def start_music(mp3_file:str) -> None:
     """
     global mp3_thread
     stop__music_event.clear()
-    mp3_thread = threading.Thread(target = play_music, args = (mp3_file, stop__music_event, pause_music_event, resume_music_event))
+    mp3_thread = threading.Thread(target = _play_music, args = (mp3_file, stop__music_event, pause_music_event, resume_music_event))
     mp3_thread.start()
 def end_music() -> None:
     """
@@ -52,3 +52,19 @@ def resume_music() -> None:
     Hintergrundmusik wird wieder fortgesetzt.
     """
     resume_music_event.set()
+def _play_sfx(mp3_file) -> None:
+    """
+    SFX Spieler.
+    """
+    # pygame.mixer.init()
+    # pygame.mixer.music.load(mp3_file)
+    # pygame.mixer.music.set_volume(0.25)
+    # pygame.mixer.music.play()
+    # pygame.mixer.music.stop()
+    # pygame.mixer.quit()
+def start_sfx(mp3_file:str) -> None:
+    """
+    Startet die Hintergrundmusik.
+    """
+    # sfx_thread = threading.Thread(target = _play_sfx, args = (mp3_file))
+    # sfx_thread.start()
