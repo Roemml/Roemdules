@@ -10,7 +10,7 @@ def parse_geometry(geometry:str) -> tuple[int,int]:
     """
     split=geometry.split("x")
     return (int(split[0]), split[1].split("+")[0])
-def erstelle_Fenster(*widgets:dict, fenster_name:str = "Fenster", fenster_breite:int = 0, fenster_hoehe:int = 0, protocols:tuple[tuple[str, str]] = None, context:dict = None) -> tk.Tk:
+def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_breite:int = 0, fenster_hoehe:int = 0, protocols:tuple[tuple[str, str]] = None, context:dict = None) -> tk.Tk:
     """
     Erstellt dynamisch ein Fenster in der Mitte des aktuellen Bildschirms.
 
