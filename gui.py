@@ -106,6 +106,17 @@ def erstelle_Fenster(*widgets:dict, fenster_name:str = "Fenster", fenster_breite
                 elemente.append((element, element_top, align))
             except Exception as e:
                 print(f"Fehler beim Button erstellen: {e}")
+        elif widget["type"] == "entry": 
+            try:
+                element = tk.Entry(fenster, width= widget["width"],) if ("show" not in widget.keys()) else tk.Entry(fenster, width= widget["width"], show=widget["show"])
+                element_top=min_hoehe
+                min_hoehe+=element.winfo_reqheight()
+                if element.winfo_reqwidth()>min_breite:min_breite=element.winfo_reqwidth()
+                if "align" in widget: align = widget["align"]
+                else: align = ALIGN_CENTER
+                elemente.append((element, element_top, align))
+            except Exception as e:
+                print(f"Fehler beim Eingabefeld erstellen: {e}")
         else:
             print(f"{widget["type"]} ist kein gültuger Widget typ")
     if min_breite > fenster_breite:
