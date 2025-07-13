@@ -29,6 +29,7 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
     fenster.title = fenster_name
     min_breite = 0
     min_hoehe = 0
+    varlist = {}
     elemente:tuple[tuple[tk.Widget,int]] = []
     if not protocols == None:
         for protocol in protocols:
@@ -108,7 +109,7 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
                 print(f"Fehler beim Button erstellen: {e}")
         elif widget["type"] == "entry": 
             try:
-                element = tk.Entry(fenster, width= widget["width"],) #if ("show" not in widget.keys()) else tk.Entry(fenster, width= widget["width"], show=widget["show"])
+                element = tk.Entry(fenster, width= widget["width"]) #if ("show" not in widget.keys()) else tk.Entry(fenster, width= widget["width"], show=widget["show"])
                 if "show" in widget:
                     element.config({"show": widget["show"]})
                 if "name" in widget:
@@ -121,6 +122,23 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
                 elemente.append((element, element_top, align))
             except Exception as e:
                 print(f"Fehler beim Eingabefeld erstellen: {e}")
+        elif widget["type"] == "radiobutton":
+            try:
+                if widget["variable"] not in varlist:
+                    globals()[widget["variable"]] = tk.StringVar()
+                    varlist[widget["variable"]] = globals()[widget["variable"]]
+                  # Setze den Startwert von modus aus context, falls vorhanden
+                if 'modus' in context:
+                    varlist[widget["variable"]].set(context['modus'])  # Dynamischer Startwert aus context
+                element = tk.Radiobutton(fenster, variable=varlist[widget["variable"]], value=widget["value"], text=widget["text"])
+                element_top=min_hoehe
+                min_hoehe+=element.winfo_reqheight()
+                if element.winfo_reqwidth()>min_breite:min_breite=element.winfo_reqwidth()
+                if "align" in widget: align = widget["align"]
+                else: align = ALIGN_CENTER
+                elemente.append((element, element_top, align))
+            except Exception as e:
+                print(f"Fehler beim radiobutton erstellen: {e}")
         else:
             print(f"{widget["type"]} ist kein gültuger Widget typ")
     if min_breite > fenster_breite:
@@ -131,4 +149,7 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
         if element[2] == ALIGN_CENTER: element[0].place(x = (fenster_breite - element[0].winfo_reqwidth()) // 2, y = element[1])
         elif element[2] == ALIGN_LEFT: element[0].place(x = 0, y = element[1])
     fenster.geometry(f"{fenster_breite}x{fenster_hoehe}+{(fenster.winfo_screenwidth() - fenster_breite) // 2}+{(fenster.winfo_screenheight() - fenster_hoehe) // 2}")
-    return fenster
+    if len(varlist) == 0:
+        return fenster
+    else:
+        return fenster, varlist
