@@ -22,7 +22,7 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
         fenster_breite - Integer: Breite des Fensters in Pixel, wenn nicht mitgegeben oder 0, oder nicht alles drauf passt, wird die Größe berechnet.
         fenster_hoehe - Integer: Höhe des Fensters in Pixel, wenn nicht mitgegeben oder 0, oder nicht alles drauf passt, wird die Größe berechnet.
         protocol - Tupel(String,String) Name des protokolls und Name der Funktion. die Funktion wird automatisch mit Lambda aufgerufen für Parameter
-        widget - Dictionary - Für jedes Element auf dem Fenster von Oben bis unten ein Dictionary, dass das Element beschreibt
+        widget - Dictionary-Liste - Für jedes Element auf dem Fenster von Oben bis unten ein Dictionary der Liste, dass das Element beschreibt
         context - Dictionary für Übergabe von benötigten Variablen oder Funktionen, die nicht im Modul sind.
     """
     fenster = tk.Tk()
