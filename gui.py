@@ -148,7 +148,11 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
     for element in elemente:
         if element[2] == ALIGN_CENTER: element[0].place(x = (fenster_breite - element[0].winfo_reqwidth()) // 2, y = element[1])
         elif element[2] == ALIGN_LEFT: element[0].place(x = 0, y = element[1])
-    fenster.geometry(f"{fenster_breite}x{fenster_hoehe}+{(fenster.winfo_screenwidth() - fenster_breite) // 2}+{(fenster.winfo_screenheight() - fenster_hoehe) // 2}")
+    x_pos = (fenster.winfo_screenwidth() - fenster_breite) // 2
+    if x_pos < 0: x_pos = 0
+    y_pos = (fenster.winfo_screenheight() - fenster_hoehe) // 2
+    if y_pos < 0: y_pos = 0
+    fenster.geometry(f"{fenster_breite}x{fenster_hoehe}+{x_pos}+{y_pos}")
     if len(varlist) == 0:
         return fenster
     else:
