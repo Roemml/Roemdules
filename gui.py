@@ -184,6 +184,7 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
     y_pos = (fenster.winfo_screenheight() - fenster_hoehe) // 2
     if y_pos < 0: y_pos = 0
     fenster.geometry(f"{fenster_breite}x{fenster_hoehe}+{x_pos}+{y_pos}")
+    fenster.width = fenster_breite
     if len(varlist) == 0:
         return fenster
     else:
