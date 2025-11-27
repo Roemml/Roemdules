@@ -1,7 +1,7 @@
 #Python Imports
 import tkinter as tk
 #Globalle Konstanzen
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 ALIGN_LEFT = "0"
 ALIGN_CENTER = "1"
 def parse_geometry(geometry:str) -> tuple[int,int]:
@@ -26,7 +26,7 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
         context - Dictionary für Übergabe von benötigten Variablen oder Funktionen, die nicht im Modul sind.
     """
     fenster = tk.Tk()
-    fenster.title = fenster_name
+    fenster.title(fenster_name)
     min_breite = 0
     min_hoehe = 0
     varlist = {}
@@ -76,6 +76,23 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
                 elemente.append(element)
             except Exception as e:
                 print(f"Fehler beim Label erstellen: {e}")
+        elif widget["type"] == "listbox": 
+            try:
+                element = tk.Listbox(fenster)
+                element.element_top=min_hoehe
+                texte:list[str] = widget["text"]
+                for text in texte:
+                    element.insert("end", text)
+                if "align" in widget: element.align = widget["align"]
+                else: element.align = ALIGN_CENTER
+                if "name" in widget:
+                    element.name = widget["name"]
+                element.configure(width=0) if not "height" in widget else element.configure(width=0, height= widget["height"])
+                min_hoehe+=element.winfo_reqheight()
+                elemente.append(element)
+                if element.winfo_reqwidth() > min_breite: min_breite = element.winfo_reqwidth()
+            except Exception as e:
+                print(f"Fehler beim listbox erstellen: {e}")
         elif widget["type"] == "button":
             try:
                 # funktionsname = widget["function"].__name__
@@ -103,7 +120,6 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
                 element = tk.Button(fenster, text = widget["text"], command = lambda wc = widget["command"], cd = comdict: eval(wc, cd), width = widget["width"], height = widget["height"])
                 element.element_top = min_hoehe
                 min_hoehe += element.winfo_reqheight()
-                if element.winfo_reqwidth() > min_breite: min_breite = element.winfo_reqwidth()
                 if element.winfo_reqwidth() > min_breite: min_breite = element.winfo_reqwidth()
                 if "align" in widget: element.align = widget["align"]
                 else: element.align = ALIGN_CENTER
