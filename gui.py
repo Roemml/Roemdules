@@ -87,7 +87,12 @@ def erstelle_Fenster(widgets:list[dict], fenster_name:str = "Fenster", fenster_b
                 else: element.align = ALIGN_CENTER
                 if "name" in widget:
                     element.name = widget["name"]
-                element.configure(width=0) if not "height" in widget else element.configure(width=0, height= widget["height"])
+                if not "height" in widget:
+                    element.configure(width=0) 
+                elif len(texte) <  widget["height"]:
+                    element.configure(width=0, height=len(texte))
+                else:
+                    element.configure(width=0, height=widget["height"])
                 min_hoehe+=element.winfo_reqheight()
                 elemente.append(element)
                 if element.winfo_reqwidth() > min_breite: min_breite = element.winfo_reqwidth()
